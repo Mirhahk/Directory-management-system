@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>View</title>
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+   <button class="btn btn-info text-right float-right" data-toggle="modal" data-target="#addModal" onclick="addRecord()">Add</button>
+{#    <button type="button" class="btn btn-info text-right float-right" data-toggle="modal" data-target="#addModal" onclick="addRecord()">Add</button>#}
+
+    <br/>
+    <br/>
+    <br/>
+</div>
+<div class="container">
+    <table id="example" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<!-- Add the modal for adding a new record -->
+{#<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">#}
+{#    <div class="modal-dialog" role="document">#}
+{#        <div class="modal-content">#}
+{#            <div class="modal-header">#}
+{#                <h5 class="modal-title" id="addModalLabel">Add New Record</h5>#}
+{#                <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                    <span aria-hidden="true">&times;</span>#}
+{#                </button>#}
+{#            </div>#}
+{#            <div class="modal-body">#}
+{#                <form id="addForm">#}
+{#                    <div class="form-group">#}
+{#                        <label for="name">Name:</label>#}
+{#                        <input type="text" class="form-control" id="name" name="name" required>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <label for="designation">Designation:</label>#}
+{#                        <input type="text" class="form-control" id="designation" name="designation" required>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <label for="department">Department:</label>#}
+{#                        <input type="text" class="form-control" id="department" name="department" required>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#            <div class="modal-footer">#}
+{#                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+{#                <button type="button" class="btn btn-primary" onclick="submitAddForm()">Save changes</button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+
+    <!-- Add the modal for adding a new record -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Add New Record</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addForm">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="designation">Designation:</label>
+                            <input type="text" class="form-control" id="designation" name="designation" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Department:</label>
+                            <input type="text" class="form-control" id="department" name="department" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAddForm()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- Add the modal for updating an existing record -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Update Record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="updateForm">
+                    <div class="form-group">
+                        <label for="updateName">Name:</label>
+                        <input type="text" class="form-control" id="updateName" name="updateName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateDesignation">Designation:</label>
+                        <input type="text" class="form-control" id="updateDesignation" name="updateDesignation" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="updateDepartment">Department:</label>
+                        <input type="text" class="form-control" id="updateDepartment" name="updateDepartment" required>
+                    </div>
+                    <input type="hidden" id="recordId" name="recordId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitUpdateForm()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "ajax": {
+                "url": "/GetData",
+                "dataSrc": ""
+            },
+            "columns": [
+                {"data": "id"},
+                {"data": "Name"},
+                {"data": "Department"},
+                {"data": "Designation"},
+                {
+                    "data": null,
+                    "render": function (data, type, row) {
+                        return '<button class="btn btn-success" data-toggle="modal" data-target="#updateModal" data-id="' + row.id + '">Update</button> ' +
+                            '<button class="btn btn-danger" onclick="deleteRecord(' + row.id + ')">Delete</button>';
+                    }
+                }
+            ]
+        });
+    });
+
+    {#function addRecord() {#}
+    {#    $('#addModal').modal('show');#}
+    {#}#}
+    {##}
+    {#function submitAddForm() {#}
+       {#event.preventDefault();#}
+    {#    const name = $('#name').val();#}
+    {#    const designation = $('#designation').val();#}
+    {#    const department = $('#department').val();#}
+    {##}
+    {#    if (name && designation && department) {#}
+    {#        $.ajax({#}
+    {#            url: '/add',#}
+    {#            type: 'POST',#}
+    {#            data: {#}
+    {#                name: name,#}
+    {#                designation: designation,#}
+    {#                department: department#}
+    {#            },#}
+    {#            success: function (response) {#}
+    {#                alert(response);#}
+    {#                $('#addModal').modal('hide');#}
+    {#                $('#example').DataTable().ajax.reload();#}
+    {#                // Clear the form fields after successful submission#}
+    {#                $('#name').val('');#}
+    {#                $('#designation').val('');#}
+    {#                $('#department').val('');#}
+    {#            },#}
+    {#            error: function (error) {#}
+    {#                alert('Error adding record: ' + error.responseText);#}
+    {#            }#}
+    {#        });#}
+    {#    } else {#}
+    {#        alert("Please enter all fields.");#}
+    {#    }#}
+    {#    return false; // Prevent default form submission#}
+    {#}#}
+
+
+
+         function addRecord() {
+            {#$('#addModal').modal('show');#}
+             document.getElementById('addModal').style.display = 'block';
+        }
+
+        function submitAddForm() {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = $('#name').val();
+            const designation = $('#designation').val();
+            const department = $('#department').val();
+
+            if (name && designation && department) {
+                $.ajax({
+                    url: '/add', // Replace with your actual server URL for adding a record
+                    type: 'POST',
+                    data: {
+                        name: name,
+                        designation: designation,
+                        department: department
+                    },
+                    success: function (response) {
+                        alert(response);
+                        {#$('#addModal').modal('hide');#}
+
+                        document.getElementById('addModal').style.display = 'none';
+                        // You can reload the table data here if needed
+                        // $('#example').DataTable().ajax.reload();
+                        // Clear the form fields after successful submission
+                        $('#name').val('');
+                        $('#designation').val('');
+                        $('#department').val('');
+                    },
+                    error: function (error) {
+                        alert('Error adding record: ' + error.responseText);
+                    }
+                });
+            } else {
+                alert("Please enter all fields.");
+            }
+        }
+
+    function deleteRecord(recordID) {
+        if (confirm('Are you sure you want to delete this record?')) {
+            $.ajax({
+                url: '/delete',
+                type: 'POST',
+                data: {id: recordID},
+                success: function (response) {
+                    alert(response);
+                    $('#example').DataTable().ajax.reload();
+                },
+                error: function (error) {
+                    alert('Error deleting record: ' + error.responseText);
+                }
+            });
+        }
+    }
+
+    $('#updateModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const recordID = button.data('id');
+        const modal = $(this);
+
+        // Populate the update form with the current data of the selected record
+        $.ajax({
+            url: '/GetData',
+            type: 'GET',
+            success: function (data) {
+                const record = data.find(item => item.id === recordID);
+                modal.find('#recordId').val(record.id);
+                modal.find('#updateName').val(record.Name);
+                modal.find('#updateDesignation').val(record.Designation);
+                modal.find('#updateDepartment').val(record.Department);
+            },
+            error: function (error) {
+                alert('Error fetching record data: ' + error.responseText);
+            }
+        });
+    });
+
+    function submitUpdateForm() {
+        const recordID = $('#recordId').val();
+        const designation = $('#updateDesignation').val();
+        const department = $('#updateDepartment').val();
+
+        if (designation && department) {
+            $.ajax({
+                url: '/update',
+                type: 'POST',
+                data: {
+                    id: recordID,
+                    designation: designation,
+                    department: department
+                },
+                success: function (response) {
+                    alert(response);
+                    $('#updateModal').modal('hide');
+                    $('#example').DataTable().ajax.reload();
+                },
+                error: function (error) {
+                    alert('Error updating record: ' + error.responseText);
+                }
+            });
+        } else {
+            alert("Please enter Designation and Department.");
+        }
+    }
+</script>
+</body>
+</html>

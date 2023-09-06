@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SSGC Data Management</title>
+    <style>
+        /* Add your CSS styling here */
+    </style>
+    <script>
+        function validateFile() {
+            // Get the uploaded file
+            const fileInput = document.getElementById('file-upload');
+            const file = fileInput.files[0];
+
+            // Check if a file is selected
+            if (!file) {
+                alert('Please select an Excel file to upload.');
+                return false;
+            }
+
+            // Check if the file has .xlsx extension
+            if (!file.name.toLowerCase().endsWith('.xlsx')) {
+                alert('Invalid file format. Please upload a .xlsx file.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function showPopup(message) {
+            alert(message);
+        }
+
+        function deleteRecord(recordID) {
+            if (confirm('Are you sure you want to delete this record?')) {
+                $.ajax({
+                    url: '/delete',
+                    type: 'POST',
+                    data: {id: recordID},
+                    success: function (response) {
+                        alert(response);
+                        $('#example').DataTable().ajax.reload();
+                    },
+                    error: function (error) {
+                        alert('Error deleting record: ' + error.responseText);
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>SSGC Data Management</h1>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <form action="/" method="post" enctype="multipart/form-data" onsubmit="return validateFile()">
+        <label for="file-upload" class="custom-file-upload">Upload Excel File</label>
+        <input id="file-upload" type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    <button><a href="{{ url_for('view') }}" class="btn btn-info">View</a></button>
+    <br/>
+    <br/>
+    <br/>
+</div>
+<script>
+    // JavaScript code to check if the file is already uploaded
+    window.onload = function () {
+        const uploadedMessage = '{{ message }}';
+        if (uploadedMessage) {
+            showPopup(uploadedMessage);
+        }
+    };
+</script>
+</body>
+</html>
